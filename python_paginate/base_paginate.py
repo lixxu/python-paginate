@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 RECORD_NAME = 'records'
 DISPLAY_MSG = 'displaying <b>{start} - {end}</b> {record_name} in \
 total <b>{total}</b>'
-SEARCH_MSG = 'found <b>{found}</b> {record_name}, \
+SEARCH_MSG = 'found <b>{total}</b> {record_name}, \
 displaying <b>{start} - {end}</b>'
 PAGE_INFO_HEAD = '<div class="pagination-page-info">'
 PAGE_INFO_END = '</div>'
@@ -19,8 +19,6 @@ class BasePagination(object):
         """Detail parameters remark.
 
         **url**: current request url
-
-        **found**: used when searching
 
         **page**: current page
 
@@ -74,7 +72,6 @@ class BasePagination(object):
         **show_next**: show next page or not
         """
         self.url = kwargs.get('url') or self.get_url()
-        self.found = kwargs.get('found', 0)
         self.page = kwargs.get('page', 1)
         self.per_page = kwargs.get('per_page', 10)
         self.inner_window = kwargs.get('inner_window', 2)
@@ -87,7 +84,7 @@ class BasePagination(object):
         self.display_msg = kwargs.get('display_msg') or DISPLAY_MSG
         self.search_msg = kwargs.get('search_msg') or SEARCH_MSG
         self.page_info_head = kwargs.get('page_info_head') or PAGE_INFO_HEAD
-        self.page_info_end = kwargs.get('page_info_head') or PAGE_INFO_HEAD
+        self.page_info_end = kwargs.get('page_info_end') or PAGE_INFO_END
 
         self.show_prev = kwargs.get('show_prev', True)
         self.show_next = kwargs.get('show_next', True)
@@ -101,8 +98,7 @@ class BasePagination(object):
 
     def init_values(self):
         self.skip = (self.page - 1) * self.per_page
-        current_total = self.found if self.search else self.total
-        pages = divmod(current_total, self.per_page)
+        pages = divmod(self.total, self.per_page)
         self.total_pages = pages[0] + 1 if pages[1] else pages[0]
 
         self.has_prev = self.page > 1
@@ -142,8 +138,14 @@ class BasePagination(object):
 
         new_page = 'page={}'.format(page)
         if 'page=' in self.url:
-            current_page = 'page={}'.format(self.page)
-            return self.url.replace(current_page, new_page)
+            if self.url.count('page=') == 1:
+                current_page = 'page={}'.format(self.page)
+                return self.url.replace(current_page, new_page)
+            else:
+                base_url, querys = self.url.split('?', 1)
+                qs = [new_page if q.startswith('page=') else q
+                      for q in querys.split('&')]
+                return '{}?{}'.format(base_url, '&'.join(qs))
 
         if '&' in self.url or '?' in self.url:
             return '{}&{}'.format(self.url, new_page)
@@ -253,10 +255,10 @@ class BasePagination(object):
         start = 1 + (self.page - 1) * self.per_page
         end = start + self.per_page - 1
         if end > self.total:
-            end = self.total if not self.search else self.found
+            end = self.total
 
         if start > self.total:
-            start = self.total if not self.search else self.found
+            start = self.total
 
         links = [self.page_info_head]
         page_msg = self.search_msg if self.search else self.display_msg
@@ -272,8 +274,7 @@ class BasePagination(object):
             start_text = start
             end_text = end
 
-        links.append(page_msg.format(found=self.found,
-                                     total=total_text,
+        links.append(page_msg.format(total=total_text,
                                      start=start_text,
                                      end=end_text,
                                      record_name=self.record_name,
