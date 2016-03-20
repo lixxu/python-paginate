@@ -24,6 +24,8 @@ class BasePagination(object):
 
         **per_page**: how many records displayed on one page
 
+        **hide_page_one**: hide page=1 or /page/1 in url
+
         **search**: search or not?
 
         **total**: total records for pagination
@@ -74,6 +76,7 @@ class BasePagination(object):
         self.url = kwargs.get('url') or self.get_url()
         self.page = kwargs.get('page', 1)
         self.per_page = kwargs.get('per_page', 10)
+        self.hide_page_one = kwargs.get('hide_page_one', True)
         self.inner_window = kwargs.get('inner_window', 2)
         self.outer_window = kwargs.get('outer_window', 1)
 
@@ -115,10 +118,12 @@ class BasePagination(object):
             import bootstrap
             if '2' in css_framework:
                 return bootstrap.Bootstrap2CSS
+            elif '3' in css_framework:
+                return bootstrap.Bootstrap3CSS
             elif '4' in css_framework:
                 return bootstrap.Bootstrap4CSS
             else:
-                return bootstrap.BootstrapCSS
+                return bootstrap.Bootstrap3CSS
         else:
             from semanticui import SemanticUICSS
             return SemanticUICSS
@@ -134,19 +139,27 @@ class BasePagination(object):
         if '/page/' in self.url:
             current_page = '/page/{}'.format(self.page)
             new_page = '/page/{}'.format(page)
+            if self.hide_page_one and page == 1:
+                new_page = ''
+
             return self.url.replace(current_page, new_page)
 
         new_page = 'page={}'.format(page)
-        if 'page=' in self.url:
+        if self.hide_page_one and page == 1:
+            new_page = ''
+
+        if '?' in self.url:
             base_url, querys = self.url.split('?', 1)
-            qs = [new_page if q.startswith('page=') else q
-                  for q in querys.split('&')]
+            qs = [q for q in querys.split('&') if not q.startswith('page=')]
+            if new_page:
+                qs.append(new_page)
+
             return '{}?{}'.format(base_url, '&'.join(qs))
 
-        if '&' in self.url or '?' in self.url:
-            return '{}&{}'.format(self.url, new_page)
+        if new_page:
+            return '{}?{}'.format(self.url, new_page)
 
-        return '{}?{}'.format(self.url, new_page)
+        return self.url
 
     @property
     def raw_single_link(self):

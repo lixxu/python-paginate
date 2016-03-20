@@ -5,45 +5,59 @@ from __future__ import unicode_literals
 
 
 class BaseCSS(object):
-    def __init__(self, *args, **kwargs):
-        self.size = kwargs.get('size') or ''
-        self.align = kwargs.get('align') or ''
-        if not self.align:
-            self.align = kwargs.get('alignment') or ''
+    css_head_fmt = '<div class="pagination{size}{align}">'
+    css_end_fmt = '</div>'
+    normal_fmt = '<a class="item" href="{href}">{label}</a>'
+    actived_fmt = '<a class="active">{label}</a>'
+    gap_fmt = '<div class="disabled">{gap}</div>'
+    css_prev_label = '&laquo;'
+    css_next_label = '&raquo;'
+    prev_disabled_fmt = '<div class="disabled">{label}</div>'
+    next_disabled_fmt = '<div class="disabled">{label}</div>'
+    prev_normal_fmt = '<a class="item" href="{href}">{label}</a>'
+    next_normal_fmt = '<a class="item" href="{href}">{label}</a>'
 
-        self.prev_label = kwargs.get('prev_label') or '&laquo;'
-        self.next_label = kwargs.get('next_label') or '&raquo;'
+    def __init__(self, *args, **kwargs):
+        self.size = self.get_adjust_size(kwargs.get('size') or '')
+        self.align = self.get_adjust_align(kwargs.get('align') or '')
+        self.prev_label = kwargs.get('prev_label') or self.css_prev_label
+        self.next_label = kwargs.get('next_label') or self.css_next_label
         self.gap_marker = kwargs.get('gap_marker') or '...'
 
     @property
     def css_head(self):
-        return '<div>'
+        return self.css_head_fmt.format(size=self.size, align=self.align)
+
+    def get_adjust_size(self, size=''):
+        return ' ' + size if size else ''
+
+    def get_adjust_align(self, align=''):
+        return ' ' + align if align else ''
 
     @property
     def css_end(self):
-        return '</div>'
+        return self.css_end_fmt
 
     def get_normal(self, href='#', label=''):
-        return '<a href="{0}">{1}</a>'.format(href, label)
-
-    def get_disabled(self, label=''):
-        return '<a class="disable">{0}</a>'.format(label)
+        return self.normal_fmt.format(href=href, label=label)
 
     def get_actived(self, href='#', label=''):
-        return '<a class="active" href="{0}">{1}</a>'.format(href, label)
+        return self.actived_fmt.format(href=href, label=label)
 
     @property
     def gap(self):
-        return self.gap_marker
+        return self.gap_fmt.format(gap=self.gap_marker)
 
-    def get_side(self, href='#', label='', disabled=False):
+    def get_side(self, href='#', disabled=False, side='prev'):
         if disabled:
-            return '<a class="disable">{0}</a>'.format(label)
+            fmt = getattr(self, side + '_disabled_fmt')
+        else:
+            fmt = getattr(self, side + '_normal_fmt')
 
-        return '<a href="{0}">{1}</a>'.format(href, label)
+        return fmt.format(href=href, label=getattr(self, side + '_label'))
 
     def get_prev(self, href='#', disabled=False):
-        return self.get_side(href, label=self.prev_label, disabled=disabled)
+        return self.get_side(href, disabled=disabled, side='prev')
 
     def get_next(self, href='#', disabled=False):
-        return self.get_side(href, label=self.next_label, disabled=disabled)
+        return self.get_side(href, disabled=disabled, side='next')
