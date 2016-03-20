@@ -138,14 +138,10 @@ class BasePagination(object):
 
         new_page = 'page={}'.format(page)
         if 'page=' in self.url:
-            if self.url.count('page=') == 1:
-                current_page = 'page={}'.format(self.page)
-                return self.url.replace(current_page, new_page)
-            else:
-                base_url, querys = self.url.split('?', 1)
-                qs = [new_page if q.startswith('page=') else q
-                      for q in querys.split('&')]
-                return '{}?{}'.format(base_url, '&'.join(qs))
+            base_url, querys = self.url.split('?', 1)
+            qs = [new_page if q.startswith('page=') else q
+                  for q in querys.split('&')]
+            return '{}?{}'.format(base_url, '&'.join(qs))
 
         if '&' in self.url or '?' in self.url:
             return '{}&{}'.format(self.url, new_page)
