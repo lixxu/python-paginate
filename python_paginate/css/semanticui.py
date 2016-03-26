@@ -5,8 +5,8 @@ from __future__ import unicode_literals
 import basecss
 
 
-class SemanticUICSS(basecss.BaseCSS):
-    css_head_fmt = '<div class="ui pagination menu{size}{align}">'
+class SemanticUI(basecss.BaseCSS):
+    css_head_fmt = '<div class="ui pagination menu{size}{align}{extra}">'
     normal_fmt = '<a class="item" href="{href}">{label}</a>'
     actived_fmt = '<a class="active item">{label}</a>'
     gap_fmt = '<div class="disabled item">{gap}</div>'
@@ -18,4 +18,4 @@ class SemanticUICSS(basecss.BaseCSS):
     next_normal_fmt = '<a class="icon item" href="{href}">{label}</a>'
 
     def __init__(self, *args, **kwargs):
-        super(SemanticUICSS, self).__init__(*args, **kwargs)
+        super(SemanticUI, self).__init__(*args, **kwargs)

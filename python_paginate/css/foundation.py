@@ -5,9 +5,9 @@ from __future__ import unicode_literals
 import basecss
 
 
-class FoundationCSS(basecss.BaseCSS):
-    css_head_fmt = '<ul class="pagination{size}{align}" role="navigation" \
-    aria-label="Pagination">'
+class Foundation(basecss.BaseCSS):
+    css_head_fmt = '<ul class="pagination{size}{align}{extra}" \
+    role="navigation" aria-label="Pagination">'
     css_end_fmt = '</ul>'
 
     normal_fmt = '<li><a href="{href}" aria-label="Page {label}">{label}</a>\
@@ -32,7 +32,7 @@ class FoundationCSS(basecss.BaseCSS):
     <span class="show-for-sr">page</span></a></li>'
 
     def __init__(self, *args, **kwargs):
-        super(FoundationCSS, self).__init__(*args, **kwargs)
+        super(Foundation, self).__init__(*args, **kwargs)
 
     def get_adjust_align(self, align):
         return ' text-' + align if align else ''

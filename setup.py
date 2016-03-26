@@ -10,14 +10,14 @@ from setuptools import setup
 
 setup(
     name='python-paginate',
-    version='0.0.1',
+    version='0.0.2',
     url='https://github.com/lixxu/python-paginate',
     license='BSD',
     author='Lix Xu',
     author_email='xuzenglin@gmail.com',
     description='Simple paginate support for python web frameworks',
     long_description=__doc__,
-    packages=['python_paginate'],
+    packages=['python_paginate', 'python_paginate.css', 'python_paginate.web'],
     zip_safe=False,
     platforms='any',
     install_requires=[],

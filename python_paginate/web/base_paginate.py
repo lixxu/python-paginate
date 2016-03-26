@@ -109,24 +109,24 @@ class BasePagination(object):
 
     def get_css_class(self, css_framework):
         if 'semantic' in css_framework:
-            from semanticui import SemanticUICSS
-            return SemanticUICSS
+            from python_paginate.css.semanticui import SemanticUI
+            return SemanticUI
         elif 'foundation' in css_framework:
-            from foundation import FoundationCSS
-            return FoundationCSS
+            from python_paginate.css.foundation import Foundation
+            return Foundation
         elif 'bootstrap' in css_framework:
-            import bootstrap
+            import python_paginate.css.bootstrap as bootstrap
             if '2' in css_framework:
-                return bootstrap.Bootstrap2CSS
+                return bootstrap.Bootstrap2
             elif '3' in css_framework:
-                return bootstrap.Bootstrap3CSS
+                return bootstrap.Bootstrap3
             elif '4' in css_framework:
-                return bootstrap.Bootstrap4CSS
+                return bootstrap.Bootstrap4
             else:
-                return bootstrap.Bootstrap3CSS
+                return bootstrap.Bootstrap3
         else:
-            from semanticui import SemanticUICSS
-            return SemanticUICSS
+            from python_paginate.css.semanticui import SemanticUI
+            return SemanticUI
 
     def get_url(self):
         """Flask can get from request."""
