@@ -6,7 +6,7 @@ from __future__ import unicode_literals
 RECORD_NAME = 'records'
 DISPLAY_MSG = 'displaying <b>{start} - {end}</b> {record_name} in \
 total <b>{total}</b>'
-SEARCH_MSG = 'found <b>{total}</b> {record_name}, \
+SEARCH_MSG = 'found <b>{total}</b> {record_name} \
 displaying <b>{start} - {end}</b>'
 PAGE_INFO_HEAD = '<div class="pagination-page-info">'
 PAGE_INFO_END = '</div>'
