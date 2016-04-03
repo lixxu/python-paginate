@@ -3,8 +3,13 @@ python-paginate
 
 Pagination support for python web frameworks (study from will_paginate).
 It requires Python2.6+ as string.format syntax.
-Supported CSS: bootstrap2&3&4, foundation and semanticui
+
+Supported CSS: `bootstrap2&3&4`, `foundation`, `semanticui`, `ink` and `uikit`
+
 Supported web frameworks: Flask, Tornado
+
+Notice:
+Only `SemanticUI` is tested as I'm using it.
 
 If you want to show pagination-info
 ("Total <b>100</b> posts, displaying <b>20 - 30</b>")
