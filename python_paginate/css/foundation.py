@@ -2,37 +2,34 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-import basecss
+from python_paginate.css import basecss
 
 
 class Foundation(basecss.BaseCSS):
-    css_head_fmt = '<ul class="pagination{size}{align}{extra}" \
+    _align_prefix = ' text-'
+    _head = '<ul class="pagination{size}{align}{extra}" \
     role="navigation" aria-label="Pagination">'
-    css_end_fmt = '</ul>'
+    _end = '</ul>'
 
-    normal_fmt = '<li><a href="{href}" aria-label="Page {label}">{label}</a>\
-    </li>'
-    actived_fmt = '<li class="current">\
+    _normal = '<li><a href="{href}" aria-label="Page {label}">{label}</a></li>'
+    _actived = '<li class="current">\
     <span class="show-for-sr">Current</span> {label}</li>'
 
-    gap_fmt = ' <li class="ellipsis" aria-hidden="true"></li>'
+    _gap = ' <li class="ellipsis" aria-hidden="true"></li>'
 
-    prev_disabled_fmt = '<li class="pagination-previous disabled">{label} \
+    _prev_disabled = '<li class="pagination-previous disabled">{label} \
     <span class="show-for-sr">page</span></li>'
 
-    next_disabled_fmt = '<li class="pagination-next disabled">{label} \
+    _next_disabled = '<li class="pagination-next disabled">{label} \
     <span class="show-for-sr">page</span></li>'
 
-    prev_normal_fmt = '<li class="pagination-previous">\
+    _prev_normal = '<li class="pagination-previous">\
     <a href="{href}" aria-label="Previous">{label} \
     <span class="show-for-sr">page</span></a></li>'
 
-    next_normal_fmt = '<li class="pagination-next">\
+    _next_normal = '<li class="pagination-next">\
     <a href="{href}" aria-label="Next">{label} \
     <span class="show-for-sr">page</span></a></li>'
 
-    def __init__(self, *args, **kwargs):
-        super(Foundation, self).__init__(*args, **kwargs)
-
-    def get_adjust_align(self, align):
-        return ' text-' + align if align else ''
+    def __init__(self, **kwargs):
+        super(Foundation, self).__init__(**kwargs)

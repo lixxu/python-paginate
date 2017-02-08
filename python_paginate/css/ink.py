@@ -2,26 +2,23 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-import basecss
+from python_paginate.css import basecss
 
 
 class Ink(basecss.BaseCSS):
-    css_head_fmt = '<nav class="ink-navigation">\
+    _head = '<nav class="ink-navigation">\
     <ul class="pagination{size}{align}{extra}">'
-    css_end_fmt = '</ul></nav>'
+    _end = '</ul></nav>'
 
-    normal_fmt = '<li><a href="{href}">{label}</a></li>'
+    _normal = '<li><a href="{href}">{label}</a></li>'
+    _actived = '<li class="active"><a href="{href}">{label}</a></li>'
+    _gap = '<li class="disabled"><a href="{href}">{gap}</a></li>'
 
-    actived_fmt = '<li class="active"><a href="{href}">{label}</a></li>'
-    gap_fmt = '<li class="disabled"><a href="{href}">{gap}</a></li>'
+    _prev_disabled = '<li class="disabled"><a href="{href}">{label}</a></li>'
+    _next_disabled = '<li class="disabled"><a href="{href}">{label}</a></li>'
 
-    prev_disabled_fmt = '<li class="disabled">\
-    <a href="{href}">{label}</a></li>'
-    next_disabled_fmt = '<li class="disabled">\
-    <a href="{href}">{label}</a></li>'
+    _prev_normal = '<li><a href="{href}">{label}</a></li>'
+    _next_normal = '<li><a href="{href}">{label}</a></li>'
 
-    prev_normal_fmt = '<li><a href="{href}">{label}</a></li>'
-    next_normal_fmt = '<li><a href="{href}">{label}</a></li>'
-
-    def __init__(self, *args, **kwargs):
-        super(Ink, self).__init__(*args, **kwargs)
+    def __init__(self, **kwargs):
+        super(Ink, self).__init__(**kwargs)

@@ -3,61 +3,62 @@
 
 from __future__ import unicode_literals
 
+INIT_KEYS = 'size align extra head end normal actived gap gap_marker \
+prev_label next_label prev_disabled next_disabled prev_normal next_normal\
+'.split()
+
 
 class BaseCSS(object):
-    css_head_fmt = '<div class="pagination{size}{align}{extra}">'
-    css_end_fmt = '</div>'
-    normal_fmt = '<a class="item" href="{href}">{label}</a>'
-    actived_fmt = '<a class="active">{label}</a>'
-    gap_fmt = '<div class="disabled">{gap}</div>'
-    css_prev_label = '&laquo;'
-    css_next_label = '&raquo;'
-    prev_disabled_fmt = '<div class="disabled">{label}</div>'
-    next_disabled_fmt = '<div class="disabled">{label}</div>'
-    prev_normal_fmt = '<a class="item" href="{href}">{label}</a>'
-    next_normal_fmt = '<a class="item" href="{href}">{label}</a>'
+    _size = ''
+    _align = ''
+    _extra = ''
+    _size_prefix = ' '
+    _align_prefix = ' '
+    _extra_prefix = ' '
+    _head = '<div class="pagination{size}{align}{extra}">'
+    _end = '</div>'
+    _normal = '<a class="item" href="{href}">{label}</a>'
+    _actived = '<a class="active">{label}</a>'
+    _gap = '<div class="disabled">{gap}</div>'
+    _gap_marker = '...'
+    _prev_label = '&laquo;'
+    _next_label = '&raquo;'
+    _prev_disabled = '<div class="disabled">{label}</div>'
+    _next_disabled = '<div class="disabled">{label}</div>'
+    _prev_normal = '<a class="item" href="{href}">{label}</a>'
+    _next_normal = '<a class="item" href="{href}">{label}</a>'
 
-    def __init__(self, *args, **kwargs):
-        self.size = self.get_adjust_size(kwargs.get('size') or '')
-        self.align = self.get_adjust_align(kwargs.get('align') or '')
-        self.extra = self.get_adjust_extra(kwargs.get('extra') or '')
-        self.prev_label = kwargs.get('prev_label') or self.css_prev_label
-        self.next_label = kwargs.get('next_label') or self.css_next_label
-        self.gap_marker = kwargs.get('gap_marker') or '...'
+    def __init__(self, **kwargs):
+        [setattr(self, k, kwargs.get('css_' + k, getattr(self, '_' + k)))
+         for k in INIT_KEYS]
 
-    @property
-    def css_head(self):
-        return self.css_head_fmt.format(size=self.size, align=self.align,
-                                        extra=self.extra)
+        self.size = self.adjust_size(self.size)
+        self.align = self.adjust_align(self.align)
+        self.extra = self.ajust_extra(self.extra)
+        self.gap = self.gap.format(gap=self.gap_marker)
+        self.head = self.head.format(size=self.size, align=self.align,
+                                     extra=self.extra)
 
-    def get_adjust_size(self, size=''):
-        return ' ' + size if size else ''
+    def adjust_size(self, size=''):
+        return self._size_prefix + size if size else ''
 
-    def get_adjust_align(self, align=''):
-        return ' ' + align if align else ''
+    def adjust_align(self, align=''):
+        return self._align_prefix + align if align else ''
 
-    def get_adjust_extra(self, extra=''):
-        return ' ' + extra if extra else ''
-
-    @property
-    def css_end(self):
-        return self.css_end_fmt
+    def ajust_extra(self, extra=''):
+        return self._extra_prefix + extra if extra else ''
 
     def get_normal(self, href='', label=''):
-        return self.normal_fmt.format(href=href, label=label)
+        return self.normal.format(href=href, label=label)
 
     def get_actived(self, href='', label=''):
-        return self.actived_fmt.format(href=href, label=label)
-
-    @property
-    def gap(self):
-        return self.gap_fmt.format(gap=self.gap_marker)
+        return self.actived.format(href=href, label=label)
 
     def get_side(self, href='#', disabled=False, side='prev'):
         if disabled:
-            fmt = getattr(self, side + '_disabled_fmt')
+            fmt = getattr(self, side + '_disabled')
         else:
-            fmt = getattr(self, side + '_normal_fmt')
+            fmt = getattr(self, side + '_normal')
 
         return fmt.format(href=href, label=getattr(self, side + '_label'))
 

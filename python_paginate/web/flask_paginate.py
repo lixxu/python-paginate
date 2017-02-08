@@ -9,24 +9,25 @@ from python_paginate.web import base_paginate
 PY2 = sys.version_info[0] == 2
 
 
-def get_page_args(page_name='page', per_page_name='per_page'):
-    args = request.args.copy()
-    args.update(request.view_args.copy())
-    page = int(args.get(page_name, 1))
-    per_page = args.get(per_page_name)
-    if per_page:
-        per_page = int(per_page)
-    else:
-        per_page = current_app.config.get('PER_PAGE', 10)
-
-    offset = (page - 1) * per_page
-    return page, per_page, offset
-
-
-class FlaskPaginate(base_paginate.BasePagination):
+class Pagination(base_paginate.BasePagination):
     def __init__(self, *args, **kwargs):
         self.flask_init()
-        super(FlaskPaginate, self).__init__(**kwargs)
+        super(Pagination, self).__init__(**kwargs)
+
+    @classmethod
+    def get_page_args(page_name=None, per_page_name=None):
+        pp_name = per_page_name or Pagination._per_page_name
+
+        args = request.args.copy()
+        args.update(request.view_args.copy())
+        page = int(args.get(page_name or Pagination._page_name, 1))
+        per_page = args.get(pp_name)
+        if per_page:
+            per_page = int(per_page)
+        else:
+            per_page = current_app.config.get(pp_name.upper(), 10)
+
+        return page, per_page, per_page * (page - 1)
 
     def flask_init(self):
         self.endpoint = request.endpoint
