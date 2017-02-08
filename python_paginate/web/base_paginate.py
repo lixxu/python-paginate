@@ -3,24 +3,28 @@
 
 from __future__ import unicode_literals
 
-RECORD_NAME = 'records'
-DISPLAY_MSG = 'displaying <b>{start} - {end}</b> {record_name} in \
-total <b>{total}</b>'
-SEARCH_MSG = 'found <b>{total}</b> {record_name} \
-displaying <b>{start} - {end}</b>'
-PAGE_INFO_HEAD = '<div class="pagination-page-info">'
-PAGE_INFO_END = '</div>'
-
 
 class BasePagination(object):
-    """A simple pagination for tornado."""
+    """A simple pagination for web frameworks."""
+    page_arg_name = 'page'
+    per_page_arg_name = 'per_page'
+    display_fmt = 'displaying <b>{start} - {end}</b> {record_name} in \
+    total <b>{total}</b>'
+    search_fmt = 'found <b>{total}</b> {record_name} \
+    displaying <b>{start} - {end}</b>'
+    info_head = '<div class="pagination-page-info">'
+    info_end = '</div>'
 
     def __init__(self, *args, **kwargs):
         """Detail parameters remark.
 
         **url**: current request url
 
+        **page_name**: arg name for page, default is `page`
+
         **page**: current page
+
+        **per_page_name**: arg name for per_page, default is `per_page`
 
         **per_page**: how many records displayed on one page
 
@@ -73,9 +77,11 @@ class BasePagination(object):
 
         **show_next**: show next page or not
         """
-        self.url = kwargs.get('url') or self.get_url()
-        self.page = kwargs.get('page', 1)
-        self.per_page = kwargs.get('per_page', 10)
+        self.page_name = kwargs.get('page_name') or self.page_arg_name
+        self.per_page_name = kwargs.get('per_page_name') \
+            or self.per_page_arg_name
+        self.page = kwargs.get(self.page_name, 1)
+        self.per_page = kwargs.get(self.per_page_name, 10)
         self.hide_page_one = kwargs.get('hide_page_one', True)
         self.inner_window = kwargs.get('inner_window', 2)
         self.outer_window = kwargs.get('outer_window', 1)
@@ -84,19 +90,20 @@ class BasePagination(object):
         self.total = kwargs.get('total', 0)
         self.format_total = kwargs.get('format_total', False)
         self.format_number = kwargs.get('format_number', False)
-        self.display_msg = kwargs.get('display_msg') or DISPLAY_MSG
-        self.search_msg = kwargs.get('search_msg') or SEARCH_MSG
-        self.page_info_head = kwargs.get('page_info_head') or PAGE_INFO_HEAD
-        self.page_info_end = kwargs.get('page_info_end') or PAGE_INFO_END
+        self.display_msg = kwargs.get('display_msg') or self.display_fmt
+        self.search_msg = kwargs.get('search_msg') or self.search_fmt
+        self.page_info_head = kwargs.get('page_info_head', self.info_head)
+        self.page_info_end = kwargs.get('page_info_end', self.info_end)
 
         self.show_prev = kwargs.get('show_prev', True)
         self.show_next = kwargs.get('show_next', True)
-        self.record_name = kwargs.get('record_name') or RECORD_NAME
+        self.record_name = kwargs.get('record_name', 'records')
         self.href = kwargs.get('href', None)
         self.show_single_page = kwargs.get('show_single_page', False)
 
         css_framework = kwargs.get('css_framework', 'semantic').lower()
         self.css = self.get_css_class(css_framework)(**kwargs)
+        self.url = kwargs.get('url') or self.get_url()
         self.init_values()
 
     def init_values(self):
@@ -136,21 +143,23 @@ class BasePagination(object):
         if self.href:
             return self.href.format(page or 1)
 
-        if '/page/' in self.url:
-            current_page = '/page/{}'.format(self.page)
-            new_page = '/page/{}'.format(page)
+        text = '/{}/'.format(self.page_name)
+        if text in self.url:
+            current_page = '{}{}'.format(text, self.page)
+            new_page = '{}{}'.format(text, page)
             if self.hide_page_one and page == 1:
                 new_page = ''
 
             return self.url.replace(current_page, new_page)
 
-        new_page = 'page={}'.format(page)
+        new_page = '{}={}'.format(self.page_name, page)
         if self.hide_page_one and page == 1:
             new_page = ''
 
+        text = '{}='.format(self.page_name)
         if '?' in self.url:
             base_url, querys = self.url.split('?', 1)
-            qs = [q for q in querys.split('&') if not q.startswith('page=')]
+            qs = [q for q in querys.split('&') if not q.startswith(text)]
             if new_page:
                 qs.append(new_page)
 

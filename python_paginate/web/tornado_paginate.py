@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-import base_paginate
+from python_paginate.web import base_paginate
 
 
-def get_page_args(handler):
-    per_page = handler.get_argument('per_page', 10)
-    page = handler.get_argument('page', 1)
+def get_page_args(handler, page_name='page', per_page_name='per_page'):
+    per_page = handler.get_argument(per_page_name, 10)
+    page = handler.get_argument(page_name, 1)
     try:
         per_page = int(per_page)
     except:

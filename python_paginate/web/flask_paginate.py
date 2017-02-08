@@ -4,16 +4,16 @@
 from __future__ import unicode_literals
 import sys
 from flask import request, url_for, Markup, current_app
-import base_paginate
+from python_paginate.web import base_paginate
 
 PY2 = sys.version_info[0] == 2
 
 
-def get_page_args():
+def get_page_args(page_name='page', per_page_name='per_page'):
     args = request.args.copy()
     args.update(request.view_args.copy())
-    page = int(args.get('page', 1))
-    per_page = args.get('per_page')
+    page = int(args.get(page_name, 1))
+    per_page = args.get(per_page_name)
     if per_page:
         per_page = int(per_page)
     else:
@@ -43,7 +43,7 @@ class FlaskPaginate(base_paginate.BasePagination):
         if self.href:
             url = self.href.format(page or 1)
         else:
-            self.url_args['page'] = page
+            self.url_args[self.page_name] = page
             url = url_for(self.endpoint, **self.url_args)
 
         # Need to return a unicode object
