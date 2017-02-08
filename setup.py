@@ -4,13 +4,13 @@ python-paginate
 
 Pagination support for python web frameworks (study from will_paginate).
 Supported CSS: bootstrap2&3&4, foundation and semanticui
-Supported web frameworks: Flask, Tornado
+Supported web frameworks: Flask, Tornado, Sanic
 """
 from setuptools import setup
 
 setup(
     name='python-paginate',
-    version='0.0.2',
+    version='0.3.0',
     url='https://github.com/lixxu/python-paginate',
     license='BSD',
     author='Lix Xu',
@@ -32,5 +32,7 @@ setup(
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ]
 )
