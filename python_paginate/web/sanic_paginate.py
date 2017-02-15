@@ -13,12 +13,12 @@ from python_paginate.web import base_paginate
 
 class Pagination(base_paginate.BasePagination):
     def __init__(self, request=None, **kwargs):
-        if not request and 'url' not in kwargs:
+        if request is None and 'url' not in kwargs:
             raise ValueError('request or url is required')
 
         kwargs.setdefault('page_name', self._page_name)
         kwargs.setdefault('per_page_name', self._per_page_name)
-        if request:
+        if request is not None:
             kwargs.setdefault('url', request.url)
             page_name = kwargs['page_name']
             per_page_name = kwargs['per_page_name']

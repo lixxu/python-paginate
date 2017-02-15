@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+  {% if users %}
+    {{ pagination.info }}
+    <div class="table-responsive">
+      <table class="ui selectable celled blue table unstackable">
+        <thead>
+          <tr><th>#</th><th>Name</th></tr>
+        </thead>
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ loop.index + pagination.skip }}</td>
+            <td>{{ user.name }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        {% if pagination.links %}
+          <tfoot>
+            <tr>
+              <th colspan="2">
+                <div class="ui right floated pagination menu">{{ pagination.links }}</div>
+              </th>
+            </tr>
+          </tfoot>
+        {% endif %}
+      </table>
+    </div>
+  {% endif %}
+{% endblock %}
