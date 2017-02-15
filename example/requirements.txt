@@ -1,3 +1,4 @@
 sanic
 sanic-jinja2
 python-paginate
+click
