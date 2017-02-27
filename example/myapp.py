@@ -53,7 +53,8 @@ async def index(request):
     cur.close()
     conn.close()
     pagination = Pagination(request, total=total, record_name='users')
-    return jinja.render('index.html', users=users, pagination=pagination)
+    return await jinja.render('index.html', users=users, pagination=pagination,
+                              request=request)
 
 
 if __name__ == '__main__':
