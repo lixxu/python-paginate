@@ -13,6 +13,7 @@ class BasePagination(object):
     _css = None  # css framework instance
     _page_name = 'page'
     _per_page_name = 'per_page'
+    _max_per_page = 100  # prevent malicious user to load too many records
     _hide_page_one = True
     _inner_window = 2
     _outer_window = 1
@@ -94,6 +95,10 @@ class BasePagination(object):
         self.per_page_name = kwargs.get('per_page_name', self._per_page_name)
         self.page = kwargs.get(self.page_name, 1)
         self.per_page = kwargs.get(self.per_page_name, 10)
+        self.max_per_page = kwargs.get('max_per_page', self._max_per_page)
+        if self.per_page > self.max_per_page:
+            self.per_page = self.max_per_page
+
         self.total = kwargs.get('total', 0)
 
         self.hide_page_one = kwargs.get('hide_page_one', self._hide_page_one)
