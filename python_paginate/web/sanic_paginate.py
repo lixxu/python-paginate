@@ -1,12 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
 try:
     from jinja2 import Markup
 except ImportError:
     def Markup(text):
         return text
+
+try:
+    from sanic_babel.speaklater import LazyString
+except ImportError:
+    LazyString = None
 
 from python_paginate.web import base_paginate
 
@@ -33,6 +37,12 @@ class Pagination(base_paginate.BasePagination):
             kwargs.setdefault(per_page_name, per_page)
 
         super(Pagination, self).__init__(**kwargs)
+        if LazyString is not None and request is not None:
+            if isinstance(self.display_msg, LazyString):
+                self.display_msg = str(self.display_msg(request))
+
+            if isinstance(self.search_msg, LazyString):
+                self.search_msg = str(self.search_msg(request))
 
     @staticmethod
     def get_page_args(request, page_name=None, per_page_name=None):
