@@ -23,12 +23,17 @@ class Pagination(base_paginate.BasePagination):
         kwargs.setdefault('page_name', self._page_name)
         kwargs.setdefault('per_page_name', self._per_page_name)
         if request is not None:
-            if request.query_string:
-                url = '{}?{}'.format(request.url, request.query_string)
-            else:
-                url = request.url
+            if 'url' not in kwargs:
+                if hasattr(request, 'path'):
+                    url = request.url
+                else:
+                    if request.query_string:
+                        url = '{}?{}'.format(request.url, request.query_string)
+                    else:
+                        url = request.url
 
-            kwargs.setdefault('url', url)
+                kwargs.update(url=url)
+
             page_name = kwargs['page_name']
             per_page_name = kwargs['per_page_name']
             page, per_page, skip = self.get_page_args(request, page_name,
