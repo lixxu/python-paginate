@@ -94,16 +94,16 @@ class BasePagination(object):
         self.page_name = kwargs.get('page_name', self._page_name)
         self.per_page_name = kwargs.get('per_page_name', self._per_page_name)
         self.page = kwargs.get(self.page_name, 1)
-        self.per_page = kwargs.get(self.per_page_name, 10)
-        self.max_per_page = kwargs.get('max_per_page', self._max_per_page)
+        self.per_page = int(kwargs.get(self.per_page_name, 10))
+        self.max_per_page = int(kwargs.get('max_per_page', self._max_per_page))
         if self.per_page > self.max_per_page:
             self.per_page = self.max_per_page
 
-        self.total = kwargs.get('total', 0)
+        self.total = int(kwargs.get('total', 0))
 
         self.hide_page_one = kwargs.get('hide_page_one', self._hide_page_one)
-        self.inner_window = kwargs.get('inner_window', self._inner_window)
-        self.outer_window = kwargs.get('outer_window', self._outer_window)
+        self.inner_window = int(kwargs.get('inner_window', self._inner_window))
+        self.outer_window = int(kwargs.get('outer_window', self._outer_window))
 
         self.search = kwargs.get('search', self._search)
         self.format_total = kwargs.get('format_total', self._format_total)
