@@ -15,9 +15,8 @@ class Pagination(base_paginate.BasePagination):
         super(Pagination, self).__init__(**kwargs)
 
     @classmethod
-    def get_page_args(page_name=None, per_page_name=None):
+    def get_page_args(cls, page_name=None, per_page_name=None):
         pp_name = per_page_name or Pagination._per_page_name
-
         args = request.args.copy()
         args.update(request.view_args.copy())
         page = int(args.get(page_name or Pagination._page_name, 1))

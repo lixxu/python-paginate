@@ -10,7 +10,7 @@ from setuptools import setup
 
 setup(
     name='python-paginate',
-    version='0.3.6',
+    version='0.3.7',
     url='https://github.com/lixxu/python-paginate',
     license='BSD',
     author='Lix Xu',
