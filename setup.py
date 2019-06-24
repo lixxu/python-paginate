@@ -3,14 +3,25 @@ python-paginate
 --------------
 
 Pagination support for python web frameworks (study from will_paginate).
-Supported CSS: bootstrap2&3&4, foundation, ink, uikit and semanticui
+Supported CSS: bootstrap2&3&4, foundation, ink, uikit and semanticui, metro4
 Supported web frameworks: Flask, Tornado, Sanic
 """
+import io
+import os.path
 from setuptools import setup
+
+work_dir = os.path.dirname(os.path.abspath(__file__))
+fp = os.path.join(work_dir, "python_paginate/__init__.py")
+
+with io.open(fp, encoding="utf-8") as f:
+    for line in f:
+        if line.startswith("__version__ = "):
+            version = line.split("=")[-1].strip().replace("'", "")
+            break
 
 setup(
     name='python-paginate',
-    version='0.3.6',
+    version=version.replace('"', ""),
     url='https://github.com/lixxu/python-paginate',
     license='BSD',
     author='Lix Xu',
@@ -30,6 +41,6 @@ setup(
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Programming Language :: Python :: 2.6',
-        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3',
     ]
 )

@@ -143,6 +143,9 @@ class BasePagination(object):
             if 'semantic' in css_framework:
                 import python_paginate.css.semantic as semantic
                 css_class = semantic.Semantic
+            elif 'metro' in css_framework:
+                import python_paginate.css.metro as metro
+                css_class = metro.Metro4
             elif 'foundation' in css_framework:
                 import python_paginate.css.foundation as foundation
                 css_class = foundation.Foundation
