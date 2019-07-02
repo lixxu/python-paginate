@@ -23,7 +23,7 @@ setup(
     name='python-paginate',
     version=version.replace('"', ""),
     url='https://github.com/lixxu/python-paginate',
-    license='BSD',
+    license='BSD-3-Clause',
     author='Lix Xu',
     author_email='xuzenglin@gmail.com',
     description='Simple paginate support for python web frameworks',
