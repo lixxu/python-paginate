@@ -15,16 +15,21 @@ class Pagination(base_paginate.BasePagination):
         super(Pagination, self).__init__(**kwargs)
 
     @classmethod
-    def get_page_args(cls, page_name=None, per_page_name=None):
+    def get_page_args(cls, page_name=None, per_page_name=None, **kwargs):
+        p_name = page_name or Pagination._page_name
         pp_name = per_page_name or Pagination._per_page_name
         args = request.args.copy()
         args.update(request.view_args.copy())
-        page = int(args.get(page_name or Pagination._page_name, 1))
+        for name in (p_name, pp_name):
+            if name in kwargs:
+                args.setdefault(name, kwargs[name])
+
+        page = int(args.get(p_name, 1))
         per_page = args.get(pp_name)
         if per_page:
             per_page = int(per_page)
         else:
-            per_page = current_app.config.get(pp_name.upper(), 10)
+            per_page = int(current_app.config.get(pp_name.upper(), 10))
 
         return page, per_page, per_page * (page - 1)
 
@@ -47,7 +52,7 @@ class Pagination(base_paginate.BasePagination):
             url = url_for(self.endpoint, **self.url_args)
 
         # Need to return a unicode object
-        return url.decode('utf8') if PY2 else url
+        return url.decode("utf8") if PY2 else url
 
     @property
     def single_link(self):

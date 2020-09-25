@@ -6,8 +6,8 @@ from python_paginate.css import basecss
 
 
 class BaseBootstrap(basecss.BaseCSS):
-    _size_prefix = ' pagination-'
-    _align_prefix = ' pagination-'
+    _size_prefix = " pagination-"
+    _align_prefix = " pagination-"
     _normal = '<li><a href="{href}">{label}</a></li>'
     _prev_normal = '<li><a href="{href}">{label}</a></li>'
     _next_normal = '<li><a href="{href}">{label}</a></li>'
@@ -18,7 +18,7 @@ class BaseBootstrap(basecss.BaseCSS):
 
 class Bootstrap2(BaseBootstrap):
     _head = '<div class="pagination{size}{align}{extra}"><ul>'
-    _end = '</ul></div>'
+    _end = "</ul></div>"
     _actived = '<li class="active"><span>{label}</span></li>'
     _gap = '<li class="disabled"><span>{gap}</span></li>'
     _prev_disabled = '<li class="disabled"><span>{label}</span></li>'
@@ -30,7 +30,7 @@ class Bootstrap2(BaseBootstrap):
 
 class Bootstrap3(BaseBootstrap):
     _head = '<nav><ul class="pagination{size}{align}{extra}">'
-    _end = '</ul></nav>'
+    _end = "</ul></nav>"
     _actived = '<li class="active"><span>{label} <span class="sr-only">\
     (current)</span></span></li>'
     _gap = '<li class="disabled"><span>\

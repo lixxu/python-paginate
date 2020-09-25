@@ -6,10 +6,10 @@ from python_paginate.css import basecss
 
 
 class Foundation(basecss.BaseCSS):
-    _align_prefix = ' text-'
+    _align_prefix = " text-"
     _head = '<ul class="pagination{size}{align}{extra}" \
     role="navigation" aria-label="Pagination">'
-    _end = '</ul>'
+    _end = "</ul>"
 
     _normal = '<li><a href="{href}" aria-label="Page {label}">{label}</a></li>'
     _actived = '<li class="current">\

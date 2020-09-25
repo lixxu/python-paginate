@@ -7,8 +7,8 @@ from python_paginate.web import base_paginate
 
 class Pagination(base_paginate.BasePagination):
     def __init__(self, **kwargs):
-        if 'url' not in kwargs:
-            raise ValueError('request url is required')
+        if "url" not in kwargs:
+            raise ValueError("request url is required")
 
         super(Pagination, self).__init__(**kwargs)
 
@@ -19,12 +19,12 @@ class Pagination(base_paginate.BasePagination):
         per_page = handler.get_argument(pp_name, 10)
         try:
             per_page = int(per_page)
-        except:
+        except Exception:
             per_page = 10
 
         try:
             page = int(page)
-        except:
+        except Exception:
             page = 1
 
         return page, per_page, per_page * (page - 1)

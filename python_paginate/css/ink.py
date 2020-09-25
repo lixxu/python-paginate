@@ -8,7 +8,7 @@ from python_paginate.css import basecss
 class Ink(basecss.BaseCSS):
     _head = '<nav class="ink-navigation">\
     <ul class="pagination{size}{align}{extra}">'
-    _end = '</ul></nav>'
+    _end = "</ul></nav>"
 
     _normal = '<li><a href="{href}">{label}</a></li>'
     _actived = '<li class="active"><a href="{href}">{label}</a></li>'

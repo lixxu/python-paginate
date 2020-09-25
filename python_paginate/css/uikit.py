@@ -6,9 +6,9 @@ from python_paginate.css import basecss
 
 
 class UIKit(basecss.BaseCSS):
-    _align_prefix = ' uk-pagination-'
+    _align_prefix = " uk-pagination-"
     _head = '<ul class="uk-pagination{size}{align}{extra}">'
-    _end = '</ul>'
+    _end = "</ul>"
 
     _normal = '<li><a href="{href}">{label}</a></li>'
     _actived = '<li class="uk-active"><span>{label}</span></li>'
