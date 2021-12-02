@@ -2,9 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-import sys
 
-_basestring = str if (sys.version_info[0] == 3) else basestring
+import six
 
 
 class BasePagination(object):
@@ -141,7 +140,7 @@ class BasePagination(object):
         if not css_framework:
             css_framework = self._css_framework
 
-        if isinstance(css_framework, _basestring):
+        if isinstance(css_framework, six.string_types):
             if "semantic" in css_framework:
                 import python_paginate.css.semantic as semantic
 
@@ -171,6 +170,8 @@ class BasePagination(object):
                     css_class = bootstrap.Bootstrap3
                 elif "4" in css_framework:
                     css_class = bootstrap.Bootstrap4
+                elif css_framework.endswith("5"):
+                    css_class = bootstrap.Bootstrap5
                 else:
                     css_class = bootstrap.Bootstrap3
             else:

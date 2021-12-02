@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+
 from python_paginate.css import basecss
 
 
@@ -45,34 +46,31 @@ class Bootstrap3(BaseBootstrap):
 
 
 class Bootstrap4(Bootstrap3):
+    _align_prefix = " justify-content-"
     _normal = '<li class="page-item">\
     <a class="page-link" href="{href}">{label}</a></li>'
 
-    _actived = '<li class="page-item active"><span class="page-link">{label} \
-    <span class="sr-only">(current)</span></span></li>'
+    _actived = '<li class="page-item active" aria-current="page">\
+    <span class="page-link">{label}</span></li>'
 
     _gap = '<li class="page-item disabled"><span class="page-link">{gap}\
     </span></li>'
 
     _prev_disabled = '<li class="page-item disabled">\
-    <span class="page-link" aria-label="Previous">\
-    <span aria-hidden="true">{label}</span>\
-    <span class="sr-only">Previous</span></span></li>'
+    <a class="page-link">{label}</a></li>'
 
     _next_disabled = '<li class="page-item disabled">\
-    <span class="page-link" aria-label="Next">\
-    <span aria-hidden="true">{label}</span>\
-    <span class="sr-only">Next</span></span></li>'
+    <a class="page-link">{label}</a></li>'
 
     _prev_normal = '<li class="page-item">\
-    <a class="page-link" href="{href}" aria-label="Previous">\
-    <span aria-hidden="true">{label}</span>\
-    <span class="sr-only">Previous</span></a></li>'
+    <a class="page-link" href="{href}">{label}</a></li>'
 
     _next_normal = '<li class="page-item">\
-    <a class="page-link" href="{href}" aria-label="Next">\
-    <span aria-hidden="true">{label}</span>\
-    <span class="sr-only">Next</span></a></li>'
+    <a class="page-link" href="{href}">{label}</a></li>'
 
     def __init__(self, **kwargs):
         super(Bootstrap4, self).__init__(**kwargs)
+
+
+class Bootstrap5(Bootstrap4):
+    pass
