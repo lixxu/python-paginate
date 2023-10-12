@@ -1,4 +1,5 @@
 # python-paginate
+
 Pagination support for python web frameworks (study from will_paginate).
 It requires Python2.6+ as string.format syntax.
 
@@ -6,7 +7,7 @@ Supported CSS: `bootstrap2&3&4`, `foundation`, `semanticui`, `ink`, `uikit` and 
 
 Supported web frameworks: Flask, Tornado and Sanic
 
-```
+```text
 Notice:
 Only SemanticUI is tested as I'm using it, please submit PR if has bugs.
 ```
@@ -15,9 +16,8 @@ Only SemanticUI is tested as I'm using it, please submit PR if has bugs.
 
 `pip install python-paginate`
 
-
 If you want to show page info like this:
-![page-info](/example/page-info.png "page-info")
+![page-info](example/page-info.png "page-info")
 above the pagination links,
 please add below lines to your css file:
 
@@ -46,6 +46,7 @@ see examples and source code for details.
 
 Run example:
 
+```bash
     $cd example
     $virtualenv venv
     $. venv/bin/activate
@@ -54,7 +55,8 @@ Run example:
     $python sql.py init_db
     $python sql.py fill_data --total=307
     $python myapp.py
+```
 
 Open <http://localhost:8000> to see the example page.
 
-![example](/example/example.png "example")
+![example](example/example.png "example")

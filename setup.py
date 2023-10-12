@@ -14,6 +14,7 @@ from setuptools import setup
 work_dir = os.path.dirname(os.path.abspath(__file__))
 fp = os.path.join(work_dir, "python_paginate/__init__.py")
 
+version = ""
 with io.open(fp, encoding="utf-8") as f:
     for line in f:
         if line.startswith("__version__ = "):

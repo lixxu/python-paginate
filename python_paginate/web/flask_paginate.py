@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
+
 import sys
-from flask import request, url_for, Markup, current_app
+
+from flask import current_app, request, url_for
+from markupsafe import Markup
+
 from python_paginate.web import base_paginate
 
 PY2 = sys.version_info[0] == 2
