@@ -48,12 +48,17 @@ class Pagination(base_paginate.BasePagination):
             else:
                 self.url_args[k] = v
 
-    def get_href(self, page):
+    def get_href(self, page=1):
         if self.href:
             url = self.href.format(page or 1)
         else:
+            url_args = self.url_args.copy()
+            url_args[self.page_name] = page
             self.url_args[self.page_name] = page
-            url = url_for(self.endpoint, **self.url_args)
+            if page == 1 and not self.show_first_page_number:
+                url_args[self.page_name] = None
+
+            url = url_for(self.endpoint, **url_args)
 
         # Need to return a unicode object
         return url.decode("utf8") if PY2 else url
