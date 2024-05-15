@@ -55,7 +55,7 @@ class Pagination(base_paginate.BasePagination):
             url_args = self.url_args.copy()
             url_args[self.page_name] = page
             self.url_args[self.page_name] = page
-            if page == 1 and not self.show_first_page_number:
+            if page == 1 and not self.include_first_page_number:
                 url_args[self.page_name] = None
 
             url = url_for(self.endpoint, **url_args)

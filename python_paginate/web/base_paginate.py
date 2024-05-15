@@ -21,7 +21,7 @@ class BasePagination(object):
     _format_number = False
     _show_prev = True
     _show_next = True
-    _include_first_page_numberinclude_first_page_number = False
+    _include_first_page_number = False
     _record_name = "records"
     _href = None
     _search = False
@@ -89,7 +89,7 @@ class BasePagination(object):
 
         **show_next**: show next page or not
 
-        **include_first_page_numberinclude_first_page_number**: show page number for first page or not
+        **include_first_page_number**: show page number for first page or not
 
         **others**: other parameters startswith css_ will be accepted by \
         css_framework
@@ -121,9 +121,9 @@ class BasePagination(object):
         self.record_name = kwargs.get("record_name", self._record_name)
         self.href = kwargs.get("href", self._href)
         self.show_single_page = kwargs.get("show_single_page", self._show_single_page)
-        self.include_first_page_numberinclude_first_page_number = kwargs.get(
-            "include_first_page_numberinclude_first_page_number",
-            self._include_first_page_numberinclude_first_page_number,
+        self.include_first_page_number = kwargs.get(
+            "include_first_page_number",
+            self._include_first_page_number,
         )
         self.css = self.get_css(kwargs.pop("css_framework", None), **kwargs)
         self.url = kwargs.get("url") or self.get_url()
@@ -247,8 +247,9 @@ class BasePagination(object):
 
     @property
     def raw_links(self):
-        if "links" in self._cached:
-            return self._cached["links"]
+        links = self._cached.get("links")
+        if links:
+            return links
 
         if self.total_pages <= 1:
             if self.show_single_page:

@@ -13,4 +13,4 @@ Adds pagination support to python web frameworks.
 
 from __future__ import unicode_literals
 
-__version__ = "2024.04.19"
+__version__ = "2024.05.15"
